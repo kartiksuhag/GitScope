@@ -1,0 +1,55 @@
+.agent-selector {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.agent-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.agent-btn:hover {
+  border-color: rgba(124, 58, 237, 0.3);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.agent-btn.active {
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15),
+              0 4px 20px rgba(124, 58, 237, 0.12);
+}
+
+.agent-icon {
+  font-size: 1.8rem;
+}
+
+.agent-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.agent-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .agent-selector {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,131 @@
+.scan-results {
+  margin-top: 24px;
+  animation: fadeIn 0.4s ease;
+}
+
+.scan-results-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.scan-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(124, 58, 237, 0.1);
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.findings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.finding-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.finding-card.border-critical,
+.finding-card.border-high {
+  border-left-color: #ef4444;
+}
+
+.finding-card.border-medium {
+  border-left-color: #f97316;
+}
+
+.finding-card.border-low {
+  border-left-color: #eab308;
+}
+
+.finding-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.severity-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.badge-high {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-medium {
+  background: rgba(249, 115, 22, 0.15);
+  color: #ffedd5;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.badge-low {
+  background: rgba(234, 179, 8, 0.15);
+  color: #fef9c3;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.badge-info {
+  background: rgba(139, 92, 246, 0.15);
+  color: #ddd6fe;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.finding-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.finding-content {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.finding-line {
+  margin: 0 0 6px;
+}
+
+.finding-line:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
