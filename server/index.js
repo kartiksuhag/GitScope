@@ -23,14 +23,13 @@ if (process.env.FRONTEND_URL) {
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, postman)
+    // Allow requests with no origin (curl, Postman, mobile apps)
     if (!origin) return callback(null, true);
-    
-    // If FRONTEND_URL is not set, allow all. Otherwise, restrict to allowed origins.
-    if (!process.env.FRONTEND_URL || allowedOrigins.includes(origin)) {
+    // Always check against the explicit allowedOrigins list
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`CORS: origin ${origin} not allowed`));
     }
   },
   credentials: true

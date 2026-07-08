@@ -6,7 +6,7 @@ dotenv.config();
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL?.includes('supabase')
-    ? { rejectUnauthorized: false }
+    ? { rejectUnauthorized: false }  // Required for Supabase free tier (self-signed cert chain)
     : false,
 });
 
