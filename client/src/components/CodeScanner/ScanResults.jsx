@@ -5,7 +5,7 @@ export default function ScanResults({ results, loading, filesCount }) {
     return (
       <div className="scan-results loading-box">
         <div className="scan-spinner" />
-        <p>Analyzing {filesCount || 'repository'} code files... (this may take up to 30s)</p>
+        <p>Analyzing repository code files... (this may take up to 30s)</p>
       </div>
     );
   }
@@ -14,36 +14,48 @@ export default function ScanResults({ results, loading, filesCount }) {
 
   const parseFindings = (text) => {
     if (!text) return [];
-    
-    // Split by lookahead for SEVERITY: or TYPE: or markdown headings like ### Critical / ### High / ### Medium
-    const regex = /(?=SEVERITY:|TYPE:|###\s+(CRITICAL|HIGH|MEDIUM|LOW|Critical|High|Medium|Low))/gi;
-    const blocks = text.split(regex).map(b => b.trim()).filter(Boolean);
-    
-    if (blocks.length <= 1 && !text.match(/SEVERITY:|TYPE:|###/i)) {
-      return [{
-        severity: 'INFO',
-        title: 'Analysis Summary',
-        content: text
-      }];
-    }
 
-    return blocks.map((block, idx) => {
-      // Detect severity
-      let severity = 'INFO';
-      const severityMatch = block.match(/severity:\s*(\w+)/i) || block.match(/(CRITICAL|HIGH|MEDIUM|LOW)/i);
-      if (severityMatch) {
-        severity = severityMatch[1].toUpperCase();
+    // Split findings by "---" separator or lookahead for "SEVERITY:"
+    const blocks = text.split(/(?:---|(?=SEVERITY:))/gi)
+      .map((b) => b.trim())
+      .filter(Boolean);
+
+    const parsed = [];
+
+    for (const block of blocks) {
+      if (!block.toUpperCase().includes('SEVERITY:')) {
+        continue;
       }
 
-      const lines = block.split('\n');
-      let title = lines[0].replace(/^###\s+/, '').trim();
-      let content = lines.slice(1).join('\n').trim();
+      const severityMatch = block.match(/SEVERITY:\s*(CRITICAL|HIGH|MEDIUM|LOW|INFO)/i);
+      const titleMatch = block.match(/TITLE:\s*(.*)/i);
+      const descMatch = block.match(/DESCRIPTION:\s*([\s\S]*)/i);
 
-      // Fallback if title is empty
-      if (!title) title = `Finding #${idx + 1}`;
+      const severity = severityMatch ? severityMatch[1].toUpperCase() : 'INFO';
+      const title = titleMatch ? titleMatch[1].trim() : 'Code Inspection Item';
+      
+      let description = descMatch ? descMatch[1].trim() : '';
+      // Trim off any trailing prompt leftovers if they exist
+      const cleanDesc = description.split(/(?:TITLE:|SEVERITY:|---)/i)[0].trim();
 
-      return { severity, title, content };
-    });
+      parsed.push({
+        severity,
+        title,
+        content: cleanDesc,
+      });
+    }
+
+    if (parsed.length === 0) {
+      return [
+        {
+          severity: 'INFO',
+          title: 'Analysis Summary',
+          content: text,
+        },
+      ];
+    }
+
+    return parsed;
   };
 
   const findings = parseFindings(results);

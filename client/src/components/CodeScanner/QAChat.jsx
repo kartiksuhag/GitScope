@@ -17,6 +17,33 @@ export default function QAChat({ onSend, loading }) {
     }
   };
 
+  const formatMessageText = (text) => {
+    if (!text) return '';
+    return text.split('\n').map((line, i) => {
+      const trimmed = line.trim();
+      
+      // Handle list items starting with "*" or "-" or digits like "1."
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+        return (
+          <li key={i} className="qa-list-item">
+            {trimmed.substring(2).trim()}
+          </li>
+        );
+      }
+
+      // Handle bold titles (e.g. **Title**)
+      if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+        return (
+          <strong key={i} className="qa-bold-header">
+            {trimmed.replace(/\*\*/g, '')}
+          </strong>
+        );
+      }
+
+      return <div key={i} className="qa-paragraph">{line}</div>;
+    });
+  };
+
   return (
     <div className="qa-chat">
       <div className="qa-messages">
@@ -26,7 +53,7 @@ export default function QAChat({ onSend, loading }) {
         {messages.map((msg, i) => (
           <div key={i} className={`qa-msg ${msg.role}`}>
             <span className="qa-role">{msg.role === 'user' ? 'You' : 'AI'}</span>
-            <p className="qa-text">{msg.text}</p>
+            <div className="qa-text">{formatMessageText(msg.text)}</div>
           </div>
         ))}
         {loading && (

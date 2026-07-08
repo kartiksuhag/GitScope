@@ -131,3 +131,23 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.qa-paragraph {
+  margin: 4px 0;
+  word-break: break-word;
+}
+
+.qa-list-item {
+  margin: 4px 0 4px 20px;
+  list-style-type: disc;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.qa-bold-header {
+  display: block;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
