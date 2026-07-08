@@ -1,129 +1,202 @@
-.scan-results {
+/* ── Loading State ──────────────────────────────────── */
+.scan-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 70px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
   margin-top: 24px;
   animation: fadeIn 0.4s ease;
 }
 
-.scan-results-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.loading-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 60px 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
-}
-
 .scan-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(124, 58, 237, 0.1);
-  border-top-color: #7c3aed;
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(124, 58, 237, 0.12);
+  border-top-color: #8b5cf6;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.9s linear infinite;
 }
 
-.findings-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.finding-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 4px solid #8b5cf6;
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.2s ease;
-}
-
-.finding-card.border-critical,
-.finding-card.border-high {
-  border-left-color: #ef4444;
-}
-
-.finding-card.border-medium {
-  border-left-color: #f97316;
-}
-
-.finding-card.border-low {
-  border-left-color: #eab308;
-}
-
-.finding-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.severity-badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
-}
-
-.badge-high {
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.badge-medium {
-  background: rgba(249, 115, 22, 0.15);
-  color: #ffedd5;
-  border: 1px solid rgba(249, 115, 22, 0.3);
-}
-
-.badge-low {
-  background: rgba(234, 179, 8, 0.15);
-  color: #fef9c3;
-  border: 1px solid rgba(234, 179, 8, 0.3);
-}
-
-.badge-info {
-  background: rgba(139, 92, 246, 0.15);
-  color: #ddd6fe;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-}
-
-.finding-title {
+.scan-loading-text {
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
   margin: 0;
 }
 
-.finding-content {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.6;
+.scan-loading-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
 }
 
-.finding-line {
-  margin: 0 0 6px;
+/* ── Root ──────────────────────────────────────────── */
+.scan-results {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.5s ease;
 }
 
-.finding-line:last-child {
-  margin-bottom: 0;
+/* ── Report Header Bar ──────────────────────────────── */
+.report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 22px 28px;
+  background: rgba(139, 92, 246, 0.06);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 18px;
 }
 
+.report-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.report-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+.report-counts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.count-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  min-width: 56px;
+}
+
+.count-number {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.count-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+.count-critical { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); color: #f87171; }
+.count-high     { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.25); color: #fb923c; }
+.count-medium   { background: rgba(234,179,8,0.1); border-color: rgba(234,179,8,0.25); color: #facc15; }
+.count-low      { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.25); color: #4ade80; }
+
+/* ── Block Label ────────────────────────────────────── */
+.block-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #a78bfa;
+  margin-bottom: 12px;
+}
+
+/* ── Overview Summary Block ─────────────────────────── */
+.summary-block {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-text {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Findings Section ───────────────────────────────── */
+.findings-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Individual Finding Card ────────────────────────── */
+.finding-card {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 4px solid;
+  padding: 20px 22px;
+  transition: transform 0.2s ease;
+}
+
+.finding-card:hover {
+  transform: translateX(3px);
+}
+
+.finding-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.finding-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.finding-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.finding-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Animations ──────────────────────────────────────── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes spin {
