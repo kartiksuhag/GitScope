@@ -22,12 +22,21 @@ export default function QAChat({ onSend, loading }) {
     return text.split('\n').map((line, i) => {
       const trimmed = line.trim();
       
-      // Handle list items starting with "*" or "-" or digits like "1."
+      // Handle list items starting with "*" or "-"
       if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
         return (
           <li key={i} className="qa-list-item">
-            {trimmed.substring(2).trim()}
+            {trimmed.substring(2).replace(/\*\*/g, '').replace(/`/g, '').trim()}
           </li>
+        );
+      }
+
+      // Handle headers starting with ###
+      if (trimmed.startsWith('###')) {
+        return (
+          <strong key={i} className="qa-bold-header">
+            {trimmed.replace(/###/g, '').replace(/\*\*/g, '').trim()}
+          </strong>
         );
       }
 
@@ -40,7 +49,8 @@ export default function QAChat({ onSend, loading }) {
         );
       }
 
-      return <div key={i} className="qa-paragraph">{line}</div>;
+      const cleanLine = trimmed.replace(/\*\*/g, '').replace(/`/g, '');
+      return <div key={i} className="qa-paragraph">{cleanLine}</div>;
     });
   };
 

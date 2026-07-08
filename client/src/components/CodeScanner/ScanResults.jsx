@@ -12,6 +12,18 @@ export default function ScanResults({ results, loading, filesCount }) {
 
   if (!results) return null;
 
+  // Clean markdown syntax (bold stars, list markers, hashtags, backticks)
+  const cleanMarkdown = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/\*\*/g, '')          // Remove bold **
+      .replace(/\*/g, '')            // Remove asterisks *
+      .replace(/#/g, '')             // Remove hashtags #
+      .replace(/`/g, '')             // Remove backticks `
+      .replace(/^\s*[-•]\s*/gm, '')  // Remove list bullets / dashes
+      .trim();
+  };
+
   const parseFindings = (text) => {
     if (!text) return [];
 
@@ -32,16 +44,17 @@ export default function ScanResults({ results, loading, filesCount }) {
       const descMatch = block.match(/DESCRIPTION:\s*([\s\S]*)/i);
 
       const severity = severityMatch ? severityMatch[1].toUpperCase() : 'INFO';
-      const title = titleMatch ? titleMatch[1].trim() : 'Code Inspection Item';
       
-      let description = descMatch ? descMatch[1].trim() : '';
-      // Trim off any trailing prompt leftovers if they exist
-      const cleanDesc = description.split(/(?:TITLE:|SEVERITY:|---)/i)[0].trim();
+      let rawTitle = titleMatch ? titleMatch[1].trim() : 'Code Quality Finding';
+      let rawDesc = descMatch ? descMatch[1].trim() : '';
+      
+      // Trim off any trailing block starts if they match greedily
+      rawDesc = rawDesc.split(/(?:TITLE:|SEVERITY:|---)/i)[0].trim();
 
       parsed.push({
         severity,
-        title,
-        content: cleanDesc,
+        title: cleanMarkdown(rawTitle),
+        content: cleanMarkdown(rawDesc),
       });
     }
 
@@ -50,7 +63,7 @@ export default function ScanResults({ results, loading, filesCount }) {
         {
           severity: 'INFO',
           title: 'Analysis Summary',
-          content: text,
+          content: cleanMarkdown(text),
         },
       ];
     }
