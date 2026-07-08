@@ -11,11 +11,29 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ── Middleware ──────────────────────────────────────
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://git-scope-theta.vercel.app'
+];
+
+if (process.env.FRONTEND_URL) {
+  const additional = process.env.FRONTEND_URL.split(',').map(o => o.trim());
+  allowedOrigins.push(...additional);
+}
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    process.env.FRONTEND_URL || '*'
-  ]
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, postman)
+    if (!origin) return callback(null, true);
+    
+    // If FRONTEND_URL is not set, allow all. Otherwise, restrict to allowed origins.
+    if (!process.env.FRONTEND_URL || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 
